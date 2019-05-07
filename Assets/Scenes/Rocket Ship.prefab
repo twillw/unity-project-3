@@ -253,7 +253,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rcsThrust: 250
-  mainThrust: 40
+  mainThrust: 35
+  mainEngine: {fileID: 8300000, guid: 9bc1cf3906fd15449a9f1ce4b0029b86, type: 3}
+  success: {fileID: 8300000, guid: ef402914ac172a94ca58edc5b5269e69, type: 3}
+  death: {fileID: 8300000, guid: d9d5bbab3c9463846b4dce2edd7aea2c, type: 3}
 --- !u!1 &5853861045588037030
 GameObject:
   m_ObjectHideFlags: 0
