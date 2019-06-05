@@ -10,7 +10,6 @@ public class Rocket : MonoBehaviour
     [SerializeField] float mainThrust = 50f;
     [SerializeField] float levelLoadDelay = 2f;
 
-
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip success;
     [SerializeField] AudioClip death;
@@ -21,6 +20,7 @@ public class Rocket : MonoBehaviour
 
     Rigidbody rigidBody;
     AudioSource audioSource;
+    bool collisionsDisabled = false;
 
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
@@ -35,6 +35,12 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // debug keys
+        if (Debug.isDebugBuild)
+        {
+            RespondToDebugKeys();
+        }
+
         // todo stop sound on death
         if (state == State.Alive)
         {
@@ -42,10 +48,22 @@ public class Rocket : MonoBehaviour
             RespondToRotateInput();
         }
     }
-    
+
+    private void RespondToDebugKeys()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+            Invoke("LoadNextLevel", levelLoadDelay);
+        }
+        if (Input.GetKey(KeyCode.C))
+        {
+            ToggleCollisions();
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive)
+        if (state != State.Alive || collisionsDisabled)
         {
             return;
         }
@@ -130,5 +148,10 @@ public class Rocket : MonoBehaviour
         }
 
         rigidBody.freezeRotation = false; // resume physics control of rotation
+    }
+
+    private void ToggleCollisions()
+    {
+        collisionsDisabled = !collisionsDisabled;
     }
 }
